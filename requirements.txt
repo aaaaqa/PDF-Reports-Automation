@@ -8,3 +8,4 @@ opencv-python==4.9.0.80
 pyodbc==5.1.0
 pillow==10.3.0
 easyocr==1.7.1
+datetime

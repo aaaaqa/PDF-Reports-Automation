@@ -15,6 +15,8 @@ from funciones import Parser, borrar_calas
 # url_origen = r"P:\Extraccion Calas - Jorge Castillo\Pruebas\Por Cargar"
 url_origen = r"\\10.5.0.13\areas\ADMINISTRACION Y FINANZAS\LOGISTICA\90_RECURSOS\REPORTE DE CALA PARTICULARES\Bitacora Electronica\Por Cargar"
 
+#url_origen = r"D:\OneDrive - Austral Group\Por Cargar"
+
 def subir(url: str, planta: str):
     subidos = 0
     fallidos = 0
@@ -149,8 +151,7 @@ def subir(url: str, planta: str):
             name = Parser(text, ress, planta)
             os.rename(os.path.join(url, it), os.path.join(url, name + ".pdf"))
             # url_des = r"P:\Extraccion Calas - Jorge Castillo\Pruebas\Por Cargar" + "\\" + planta
-            url_des = r"\\10.5.0.13\areas\ADMINISTRACION Y FINANZAS\LOGISTICA\90_RECURSOS\REPORTE DE CALA PARTICULARES" \
-                      r"\Bitacora Electronica\Bitacoras Cargadas" + "\\" + planta
+            url_des = r"\\10.5.0.13\areas\ADMINISTRACION Y FINANZAS\LOGISTICA\90_RECURSOS\REPORTE DE CALA PARTICULARES\Bitacora Electronica\Bitacoras Cargadas" + "\\" + planta
             os.path.join(url, name, ".pdf")
             shutil.move(url + "\\" + name + ".pdf", url_des + "\\" + name + ".pdf")
             imagen.close()

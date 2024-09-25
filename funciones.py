@@ -460,26 +460,28 @@ def borrar_calas(url):
     # print(files)
     for it in files:
         CodigoUnico = ""
+        try:
+            with fitz.open(os.path.join(url, it)) as doc:
+                txt = ""
+                for page in doc:
+                    txt += page.get_text()
+                txt = txt.replace('�', '')
+                txt = txt.replace('\n', ' ')
+                txt = txt.split(' ')
+                txt = [i for i in txt if i != '']
 
-        with fitz.open(os.path.join(url, it)) as doc:
-            txt = ""
-            for page in doc:
-                txt += page.get_text()
-            txt = txt.replace('�', '')
-            txt = txt.replace('\n', ' ')
-            txt = txt.split(' ')
-            txt = [i for i in txt if i != '']
-
-            for idx in range(len(txt)):
-                if idx + 2 < len(txt) and txt[idx] + txt[idx + 1] + txt[idx + 2] == "DETALLEDEFAENA":
-                    CodigoUnico += txt[idx + 4]
-                    break
-            # print(CodigoUnico)
-            cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS where DES_CODIG_UNICO = ?", str(CodigoUnico))
-            cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_CALAS where DES_CODIG_UNICO = ?", str(CodigoUnico))
-            cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_RESUMEN where DES_CODIG_UNICO = ?", str(CodigoUnico))
-            cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_CALAS_DETALLE where DES_CODIG_UNICO = ? ", str(CodigoUnico))
-            cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_GRAFICO where DES_CODIG_UNICO = ?", str(CodigoUnico))
+                for idx in range(len(txt)):
+                    if idx + 2 < len(txt) and txt[idx] + txt[idx + 1] + txt[idx + 2] == "DETALLEDEFAENA":
+                        CodigoUnico += txt[idx + 4]
+                        break
+                # print(CodigoUnico)
+                cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS where DES_CODIG_UNICO = ?", str(CodigoUnico))
+                cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_CALAS where DES_CODIG_UNICO = ?", str(CodigoUnico))
+                cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_RESUMEN where DES_CODIG_UNICO = ?", str(CodigoUnico))
+                cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_CALAS_DETALLE where DES_CODIG_UNICO = ? ", str(CodigoUnico))
+                cursor.execute("DELETE from POWERBI.mprima.FACT_FAENA_TERCEROS_GRAFICO where DES_CODIG_UNICO = ?", str(CodigoUnico))
+        except:
+            continue
 
     cursor.commit()
     cursor.close()
